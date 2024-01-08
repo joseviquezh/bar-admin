@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>
+    Inventario
+</h1>
+
+<br>
+
+<table class="table table-hover table-striped table-bordered center">
+    <thead>
+        <tr>
+            <th>Categoria</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+        {% for product in products %}
+        <tr>
+            <td>{{ product.category.name }}</td>
+            <td>{{ product.name }}</td>
+            <td>₡{{ product.price }}</td>
+            <td>{{ product.quantity|default_if_none:"N/A" }} </td>
+        </tr>
+        {% endfor %}
+    <tbody>
+</table>        
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>
+    Ordenes
+</h1>
+
+<br>
+
+<div>
+    <button>Nueva Orden</button>
+</div> 
+
+<br>
+
+<table class="table table-hover table-striped table-bordered center">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Pagado</th>
+            <th>Total</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.customer }}</td>
+            <td>{{ order.payed }}</td>
+            <td>₡{{ order.total_ammount }}</td>
+            <td><button type="button">Agregar Producto</button></td>
+            <td><button type="button">Pagar</button></td>
+        </tr>
+        {% endfor %}
+    <tbody>
+</table>
+
+{% endblock %}
