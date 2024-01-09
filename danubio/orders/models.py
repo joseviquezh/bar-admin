@@ -8,7 +8,7 @@ class Order(models.Model):
     customer = models.CharField(max_length=255)
     payed = models.BooleanField(default=False)
     date = models.DateField()
-    total_ammount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_ammount = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.customer} - {self.date}"

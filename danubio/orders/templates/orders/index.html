@@ -6,35 +6,186 @@
     Ordenes
 </h1>
 
-<br>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newOrder">Nueva Orden</button>
 
 <div>
-    <button>Nueva Orden</button>
+    <form method="POST" action="{% url 'create_order' %}">
+        <div id="newOrder" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <div class="modal-body">
+                    <table class="center">
+                        <td>Cliente</td>
+                        <td><input type="text" class="form-control" name="customer"></td>
+                    </table>
+                    <table id="createOrderTable" class="table table-hover table-striped table-bordered center">
+                        <thead>
+                            <tr>
+                                <th>Categoria</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                            {% for product in products %}
+                            <tr>
+                                <td>{{ product.category.name }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>₡{{ product.price }}</td>
+                                <td><input name="{{ product.id }}-quantity" value="0"/></td>
+                            </tr>
+                            {% endfor %}
+                        <tbody>
+                    </table> 
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 pull-right">
+                        <button class="btn btn-primary btn-outline" type="submit">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div> 
 
-<br>
+<div>
+    <form method="POST" action="{% url 'add_products' %}">
+        <div id="addProduct" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <div class="modal-body">
+                    <input type="hidden" name="orderId" id="orderId" value=""/>
+                    <table id="addProductTable" class="table table-hover table-striped table-bordered center">
+                        <thead>
+                            <tr>
+                                <th>Categoria</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                            {% for product in products %}
+                            <tr>
+                                <td>{{ product.category.name }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>₡{{ product.price }}</td>
+                                <td><input name="{{ product.id }}-quantity" value="0"/></td>
+                            </tr>
+                            {% endfor %}
+                        <tbody>
+                    </table> 
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 pull-right">
+                        <button class="btn btn-primary btn-outline" type="submit">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
-<table class="table table-hover table-striped table-bordered center">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Pagado</th>
-            <th>Total</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for order in orders %}
-        <tr>
-            <td>{{ order.customer }}</td>
-            <td>{{ order.payed }}</td>
-            <td>₡{{ order.total_ammount }}</td>
-            <td><button type="button">Agregar Producto</button></td>
-            <td><button type="button">Pagar</button></td>
-        </tr>
-        {% endfor %}
-    <tbody>
-</table>
+<div class="container">
+    <table id="ordersTable" class="table table-hover table-striped table-bordered center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Total</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer }}</td>
+                <td>₡{{ order.total_ammount }}</td>
+                <td><button id="addProductButton" type="button" data-order-id="{{ order.id }}">+</button></td>
+                <td><button id="payButton" type="button" data-order-id="{{ order.id }}">Pagar</button></td>
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table>
+</div>
+
+<script>
+    new DataTable('#ordersTable', {
+        paging: false,
+        scrollCollapse: true,
+        ordering: false,
+        searching: true,
+        "columns": [
+            null,
+            null,
+            null,
+            { "width": "1%" },
+            { "width": "1%" }
+        ],
+        fixedColumns: true,
+    });
+
+    new DataTable('#createOrderTable', {
+        searching: true,
+        ordering: false,
+        paging: false,
+    });
+
+    new DataTable('#addProductTable', {
+        searching: true,
+        ordering: false,
+        paging: false,
+    });
+
+    var myModal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
+    
+    document.addEventListener('click', function(e){
+        if(e.target.tagName=="BUTTON" && event.target.id=="addProductButton"){
+            var orderId = event.target.getAttribute('data-order-id');
+            $('#orderId').val(orderId);
+            myModal.show();
+        }
+    })
+
+    document.addEventListener('click', function(e){
+        if(e.target.tagName=="BUTTON" && event.target.id=="payButton"){
+            var orderId = event.target.getAttribute('data-order-id');
+
+            // var form = document.createElement('form');
+            // form.setAttribute('method', 'post');
+            // form.setAttribute('action', "{% url 'close_order' %}");
+            // form.style.display = 'hidden';
+
+            // var input = document.createElement("input");
+            // input.setAttribute("type", "hidden");
+            // input.setAttribute("name", "orderId");
+            // input.setAttribute("id", "orderId");
+            // input.setAttribute("value", orderId);
+
+            // form.appendChild(input)
+            
+            // form.submit();
+
+            $.ajax({
+                url: "{% url 'close_order' %}",
+                data: JSON.stringify({ "objectId": orderId }),
+                contentType: "application/json",
+                type: 'POST'
+            })
+        }
+    })
+
+</script>
 
 {% endblock %}
