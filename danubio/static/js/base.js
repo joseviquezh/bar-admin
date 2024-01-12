@@ -38,36 +38,40 @@ new DataTable('#addProductTable', products_table);
 
 new DataTable('#updateInventoryTable', products_table);
 
-var myModal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
 
 document.addEventListener('click', function(e){
-    if(e.target.tagName=="BUTTON" && event.target.id=="addProductButton"){
-        var orderId = event.target.getAttribute('data-order-id');
-        $('#orderId').val(orderId);
-        myModal.show();
+    if(e.target.tagName=="BUTTON" && e.target.id=="addProductButton"){
+        modal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
+
+        var orderId = e.target.getAttribute('data-order-id');
+        $('#addProductOrderId').val(orderId);
+        modal.show();
     }
 })
 
 document.addEventListener('click', function(e){
-    if(e.target.tagName=="BUTTON" && event.target.id=="payButton"){
-        var orderId = event.target.getAttribute('data-order-id');
-        var closeOrderUrl = event.target.getAttribute('data-close-order-url');
+    if(e.target.tagName=="BUTTON" && e.target.id=="payButton"){
+        modal = new bootstrap.Modal(document.getElementById('closeOrder'), {keyboard: false})
 
-        var form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', closeOrderUrl);
-        form.style.display = 'hidden';
+        var orderId = e.target.getAttribute('data-order-id');
+        var detailUrl = e.target.getAttribute('data-detail-url');
 
-        var input = document.createElement("input");
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", "orderId");
-        input.setAttribute("id", "orderId");
-        input.setAttribute("value", orderId);
+        $('#closeOrderOrderId').val(orderId);
 
-
-        form.appendChild(input)
-        document.body.appendChild(form);
-
-        form.submit();
+        $.ajax({
+            "url" : detailUrl,
+            "type" : "GET",
+            "success" : function(data) {              
+                    var orderDetails= JSON.stringify(data);
+                    console.log(orderDetails)
+                    $('#orderDetails').text(orderDetails);
+            },
+            "error" : function(response, error)
+            {
+                console.log("ERROR: " + JSON.stringify(response));
+            }
+        });
+        
+        modal.show();
     }
 })

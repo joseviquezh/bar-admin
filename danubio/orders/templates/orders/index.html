@@ -42,8 +42,30 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                 <div class="modal-body">
-                    <input type="hidden" name="orderId" id="orderId" value=""/>
+                    <input type="hidden" name="addProductOrderId" id="addProductOrderId" value=""/>
                     {% include 'products_table.html' with table_id="addProductTable" %}
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 pull-right">
+                        <button class="btn btn-primary btn-outline" type="submit">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <form method="POST" action="{% url 'close_order' %}">
+        <div id="closeOrder" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <div class="modal-body">
+                    <input type="hidden" name="closeOrderOrderId" id="closeOrderOrderId" value=""/>
+                    <p id="orderDetails"></p>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 pull-right">
@@ -73,7 +95,7 @@
                 <td>{{ order.customer }}</td>
                 <td>₡{{ order.total_ammount }}</td>
                 <td><button id="addProductButton" type="button" data-order-id="{{ order.id }}">+</button></td>
-                <td><button id="payButton" type="button" data-order-id="{{ order.id }}" data-close-order-url="{% url 'close_order' %}">Pagar</button></td>
+                <td><button id="payButton" type="button" data-order-id="{{ order.id }}" data-detail-url="{% url 'order_details' order.id %}">Pagar</button></td>
             </tr>
             {% endfor %}
         <tbody>

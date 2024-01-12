@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from inventory.models import Product
+from json import dumps
 from orders.models import Order, OrderProduct
 
 
@@ -44,19 +45,44 @@ def create_order(request):
 @csrf_exempt
 def add_products(request):
     if request.method == 'POST':
-        orderId = int(request.POST.get("orderId"))
+        orderId = int(request.POST.get("addProductOrderId"))
         order = Order.objects.get(pk=orderId)
         add_products_util(request, order)
         return redirect(reverse_lazy('orders'))
     else:
         return HttpResponse("Invalid request method.")
 
+def order_details(request, order_id):
+    if request.method == 'GET':
+        """
+        Build a dictionary which looks something like this:
+
+        {22:
+            {'Imperial':
+                {'quantity': 2,
+                'total_due': 2400
+                }
+            }
+        }
+        """
+        orders_details = {}
+        orderProducts = OrderProduct.objects.filter(order=order_id)
+        for orderProduct in orderProducts:
+            if orderProduct.product.name not in orders_details:
+                orders_details[orderProduct.product.name] = {"quantity": 0, "total_due": 0}
+            orders_details[orderProduct.product.name]["quantity"] += 1
+            orders_details[orderProduct.product.name]["total_due"] = orders_details[orderProduct.product.name]["quantity"] * orderProduct.product.price
+        print(orders_details)
+
+        return HttpResponse(dumps(orders_details), content_type="application/json")
+    else:
+        return HttpResponse("Invalid request method.")
+
 @csrf_exempt
 def close_order(request):
     if request.method == 'POST':
-        orderId = int(request.POST.get("orderId"))
+        orderId = int(request.POST.get("closeOrderOrderId"))
         orderProducts = OrderProduct.objects.filter(order=orderId)
-        print(orderProducts)
         for orderProduct in orderProducts:
             Product.objects.filter(pk=orderProduct.product.pk).update(quantity=F('quantity')-1)
         order = Order.objects.get(pk=orderId)

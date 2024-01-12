@@ -11,53 +11,67 @@ new DataTable('#ordersTable', {
         { "width": "1%" }
     ],
     fixedColumns: true,
+    scrollY: 300
 });
 
 new DataTable('#inventoryTable', {
     paging: false,
     scrollCollapse: true,
-    ordering: false,
+    ordering: true,
+    order: [[0, 'asc'], [1, 'asc']],
     searching: true,
     fixedColumns: true,
+    scrollY: 300
 });
 
-
-new DataTable('#productsTable', {
+var products_table = {
     searching: true,
-    ordering: false,
+    ordering: true,
+    order: [[0, 'asc'], [1, 'asc']],
     paging: false,
-});
+    scrollY: 300
+}
 
-var myModal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
+new DataTable('#createOrderTable', products_table);
+
+new DataTable('#addProductTable', products_table);
+
+new DataTable('#updateInventoryTable', products_table);
+
 
 document.addEventListener('click', function(e){
-    if(e.target.tagName=="BUTTON" && event.target.id=="addProductButton"){
-        var orderId = event.target.getAttribute('data-order-id');
-        $('#orderId').val(orderId);
-        myModal.show();
+    if(e.target.tagName=="BUTTON" && e.target.id=="addProductButton"){
+        modal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
+
+        var orderId = e.target.getAttribute('data-order-id');
+        $('#addProductOrderId').val(orderId);
+        modal.show();
     }
 })
 
 document.addEventListener('click', function(e){
-    if(e.target.tagName=="BUTTON" && event.target.id=="payButton"){
-        var orderId = event.target.getAttribute('data-order-id');
-        var closeOrderUrl = event.target.getAttribute('data-close-order-url');
+    if(e.target.tagName=="BUTTON" && e.target.id=="payButton"){
+        modal = new bootstrap.Modal(document.getElementById('closeOrder'), {keyboard: false})
 
-        var form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', closeOrderUrl);
-        form.style.display = 'hidden';
+        var orderId = e.target.getAttribute('data-order-id');
+        var detailUrl = e.target.getAttribute('data-detail-url');
+        console.log(detailUrl + "/" + orderId)
 
-        var input = document.createElement("input");
-        input.setAttribute("type", "hidden");
-        input.setAttribute("name", "orderId");
-        input.setAttribute("id", "orderId");
-        input.setAttribute("value", orderId);
-
-
-        form.appendChild(input)
-        document.body.appendChild(form);
-
-        form.submit();
+        $('#closeOrderOrderId').val(orderId);
+        $.ajax({
+            "url" : detailUrl + "/" + orderId,
+            "type" : "GET",
+            "success" : function(data) {              
+                    var orderDetails= JSON.stringify(data);
+                    console.log(orderDetails)
+                    $('#orderDetails').text(orderDetails);
+            },
+            "error" : function(response, error)
+            {
+                console.log("ERROR: " + JSON.stringify(response));
+            }
+        });
+        
+        modal.show();
     }
 })
