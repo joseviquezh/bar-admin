@@ -2,7 +2,6 @@ from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.decorators.csrf import csrf_exempt
 from inventory.models import Product
 
 # Create your views here.

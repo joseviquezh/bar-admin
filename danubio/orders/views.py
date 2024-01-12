@@ -3,7 +3,6 @@ from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.decorators.csrf import csrf_exempt
 from inventory.models import Product
 from json import dumps
 from orders.models import Order, OrderProduct
@@ -15,7 +14,10 @@ def add_products_util(request, order):
         if "-quantity" in key:
             productId = int(key.strip("-quantity"))
             for _ in range(int(value)):
-                OrderProduct.objects.create(order=order, product=Product.objects.get(pk=productId))
+                product = Product.objects.get(pk=productId)
+                product.quantity -= 1
+                product.save()
+                OrderProduct.objects.create(order=order, product=product)
     orderProducts = OrderProduct.objects.filter(order=order)
     total_ammount = 0
     for orderProduct in orderProducts:
@@ -78,9 +80,9 @@ def order_details(request, order_id):
 def close_order(request):
     if request.method == 'POST':
         orderId = int(request.POST.get("closeOrderOrderId"))
-        orderProducts = OrderProduct.objects.filter(order=orderId)
-        for orderProduct in orderProducts:
-            Product.objects.filter(pk=orderProduct.product.pk).update(quantity=F('quantity')-1)
+        # orderProducts = OrderProduct.objects.filter(order=orderId)
+        # for orderProduct in orderProducts:
+        #     Product.objects.filter(pk=orderProduct.product.pk).update(quantity=F('quantity')-1)
         order = Order.objects.get(pk=orderId)
         order.payed = True
         order.save()
