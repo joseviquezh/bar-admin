@@ -5,9 +5,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home, name='orders'),
-    path('create/', create, name='create_order'),
+    path('create_order/', create_order, name='create_order'),
     path('add_products', add_products, name='add_products'),
-    path('close_order', close, name='close_order'),
+    path('close_order', close_order, name='close_order'),
 ]
 
 if settings.DEBUG:

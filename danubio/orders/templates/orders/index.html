@@ -21,7 +21,7 @@
                         <td>Cliente</td>
                         <td><input type="text" class="form-control" name="customer"></td>
                     </table>
-                    {% include 'orders/products_table.html' %}
+                    {% include 'products_table.html' with table_id="createOrderTable" %}
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 pull-right">
@@ -43,7 +43,7 @@
                     </div>
                 <div class="modal-body">
                     <input type="hidden" name="orderId" id="orderId" value=""/>
-                    {% include 'orders/products_table.html' %}
+                    {% include 'products_table.html' with table_id="addProductTable" %}
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 pull-right">
