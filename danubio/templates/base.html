@@ -1,3 +1,4 @@
+{% load static %}
 <html lang="en">
 <head>
     <title>Bar el Danubio</title>
@@ -7,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"></script>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -14,16 +17,6 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-    <style>
-        .center {
-            text-align: center;
-        }
-        
-        div.dataTables_wrapper {
-            margin: 0 auto;
-        }
-    </style>
-    
 </head>
 <body>
 
@@ -47,6 +40,9 @@
     {% block content %}
     {% endblock %}
 </div>
+
+<!-- Javascript files must be loaded at last to ensure all HTML elements exist first -->
+<script src="{% static 'js/base.js' %}"></script>
 
 </body>
 </html>

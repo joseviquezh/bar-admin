@@ -57,12 +57,10 @@ def add_products(request):
 @csrf_exempt
 def close(request):
     if request.method == 'POST':
-        print(request.body)
-        orderId = int(json.loads(request.body.decode('UTF-8')).get("objectId"))
+        orderId = int(request.POST.get("orderId"))
         order = Order.objects.get(id=orderId)
         order.payed = True
         order.save()
-        print(order)
         return redirect(reverse_lazy('orders'))
     else:
         return HttpResponse("Invalid request method.")

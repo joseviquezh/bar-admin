@@ -1,0 +1,7 @@
+.center {
+    text-align: center;
+}
+
+div.dataTables_wrapper {
+    margin: 0 auto;
+}

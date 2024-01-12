@@ -21,27 +21,7 @@
                         <td>Cliente</td>
                         <td><input type="text" class="form-control" name="customer"></td>
                     </table>
-                    <table id="createOrderTable" class="table table-hover table-striped table-bordered center">
-                        <thead>
-                            <tr>
-                                <th>Categoria</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        
-                            {% for product in products %}
-                            <tr>
-                                <td>{{ product.category.name }}</td>
-                                <td>{{ product.name }}</td>
-                                <td>₡{{ product.price }}</td>
-                                <td><input name="{{ product.id }}-quantity" value="0"/></td>
-                            </tr>
-                            {% endfor %}
-                        <tbody>
-                    </table> 
+                    {% include 'orders/products_table.html' %}
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 pull-right">
@@ -63,27 +43,7 @@
                     </div>
                 <div class="modal-body">
                     <input type="hidden" name="orderId" id="orderId" value=""/>
-                    <table id="addProductTable" class="table table-hover table-striped table-bordered center">
-                        <thead>
-                            <tr>
-                                <th>Categoria</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        
-                            {% for product in products %}
-                            <tr>
-                                <td>{{ product.category.name }}</td>
-                                <td>{{ product.name }}</td>
-                                <td>₡{{ product.price }}</td>
-                                <td><input name="{{ product.id }}-quantity" value="0"/></td>
-                            </tr>
-                            {% endfor %}
-                        <tbody>
-                    </table> 
+                    {% include 'orders/products_table.html' %}
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 pull-right">
@@ -113,79 +73,11 @@
                 <td>{{ order.customer }}</td>
                 <td>₡{{ order.total_ammount }}</td>
                 <td><button id="addProductButton" type="button" data-order-id="{{ order.id }}">+</button></td>
-                <td><button id="payButton" type="button" data-order-id="{{ order.id }}">Pagar</button></td>
+                <td><button id="payButton" type="button" data-order-id="{{ order.id }}" data-close-order-url="{% url 'close_order' %}">Pagar</button></td>
             </tr>
             {% endfor %}
         <tbody>
     </table>
 </div>
-
-<script>
-    new DataTable('#ordersTable', {
-        paging: false,
-        scrollCollapse: true,
-        ordering: false,
-        searching: true,
-        "columns": [
-            null,
-            null,
-            null,
-            { "width": "1%" },
-            { "width": "1%" }
-        ],
-        fixedColumns: true,
-    });
-
-    new DataTable('#createOrderTable', {
-        searching: true,
-        ordering: false,
-        paging: false,
-    });
-
-    new DataTable('#addProductTable', {
-        searching: true,
-        ordering: false,
-        paging: false,
-    });
-
-    var myModal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
-    
-    document.addEventListener('click', function(e){
-        if(e.target.tagName=="BUTTON" && event.target.id=="addProductButton"){
-            var orderId = event.target.getAttribute('data-order-id');
-            $('#orderId').val(orderId);
-            myModal.show();
-        }
-    })
-
-    document.addEventListener('click', function(e){
-        if(e.target.tagName=="BUTTON" && event.target.id=="payButton"){
-            var orderId = event.target.getAttribute('data-order-id');
-
-            // var form = document.createElement('form');
-            // form.setAttribute('method', 'post');
-            // form.setAttribute('action', "{% url 'close_order' %}");
-            // form.style.display = 'hidden';
-
-            // var input = document.createElement("input");
-            // input.setAttribute("type", "hidden");
-            // input.setAttribute("name", "orderId");
-            // input.setAttribute("id", "orderId");
-            // input.setAttribute("value", orderId);
-
-            // form.appendChild(input)
-            
-            // form.submit();
-
-            $.ajax({
-                url: "{% url 'close_order' %}",
-                data: JSON.stringify({ "objectId": orderId }),
-                contentType: "application/json",
-                type: 'POST'
-            })
-        }
-    })
-
-</script>
 
 {% endblock %}
