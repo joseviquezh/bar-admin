@@ -23,14 +23,12 @@ def add_products_util(request, order):
     order.total_ammount = total_ammount
     order.save()
 
-@csrf_exempt
 def home(request):
     orders = Order.objects.filter(date=date.today(), payed=False)
     products = Product.objects.all()
     context = {'orders': orders, 'products': products}
     return render(request, 'orders/index.html', context)
 
-@csrf_exempt
 def create_order(request):
     if request.method == 'POST':
         customer = request.POST.get('customer')
@@ -42,7 +40,6 @@ def create_order(request):
     else:
         return HttpResponse("Invalid request method.")
 
-@csrf_exempt
 def add_products(request):
     if request.method == 'POST':
         orderId = int(request.POST.get("addProductOrderId"))
@@ -78,7 +75,6 @@ def order_details(request, order_id):
     else:
         return HttpResponse("Invalid request method.")
 
-@csrf_exempt
 def close_order(request):
     if request.method == 'POST':
         orderId = int(request.POST.get("closeOrderOrderId"))

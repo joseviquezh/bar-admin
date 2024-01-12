@@ -12,7 +12,6 @@ def home(request):
     context = {'products': products }
     return render(request, 'inventory/index.html', context)
 
-@csrf_exempt
 def update_inventory(request):
     if request.method == 'POST':
         for key, value in request.POST.items():

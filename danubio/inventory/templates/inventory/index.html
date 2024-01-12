@@ -10,6 +10,7 @@
 
 <div>
     <form method="POST" action="{% url 'update_inventory' %}">
+        {% csrf_token %}
         <div id="updateInventory" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">

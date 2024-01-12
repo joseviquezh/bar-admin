@@ -10,6 +10,7 @@
 
 <div>
     <form method="POST" action="{% url 'create_order' %}">
+        {% csrf_token %}        
         <div id="newOrder" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -35,6 +36,7 @@
 
 <div>
     <form method="POST" action="{% url 'add_products' %}">
+        {% csrf_token %}
         <div id="addProduct" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -57,6 +59,7 @@
 
 <div>
     <form method="POST" action="{% url 'close_order' %}">
+        {% csrf_token %}
         <div id="closeOrder" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -81,7 +84,6 @@
     <table id="ordersTable" class="table table-hover table-striped table-bordered center">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Total</th>
                 <th></th>
@@ -91,7 +93,6 @@
         <tbody>
             {% for order in orders %}
             <tr>
-                <td>{{ order.id }}</td>
                 <td>{{ order.customer }}</td>
                 <td>₡{{ order.total_ammount }}</td>
                 <td><button id="addProductButton" type="button" data-order-id="{{ order.id }}">+</button></td>

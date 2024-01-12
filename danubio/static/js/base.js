@@ -6,7 +6,6 @@ new DataTable('#ordersTable', {
     "columns": [
         null,
         null,
-        null,
         { "width": "1%" },
         { "width": "1%" }
     ],
