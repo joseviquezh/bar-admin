@@ -5,8 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', home, name='inventory'),
-    path('detail/<int:id>/', detail, name='detail'),
-    path('update/<int:id>/', update, name='update'),
+    path('update_inventory', update_inventory, name='update_inventory'),
 ]
 
 if settings.DEBUG:

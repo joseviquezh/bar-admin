@@ -11,19 +11,32 @@ new DataTable('#ordersTable', {
         { "width": "1%" }
     ],
     fixedColumns: true,
+    scrollY: 300
 });
 
-new DataTable('#createOrderTable', {
-    searching: true,
-    ordering: false,
+new DataTable('#inventoryTable', {
     paging: false,
+    scrollCollapse: true,
+    ordering: true,
+    order: [[0, 'asc'], [1, 'asc']],
+    searching: true,
+    fixedColumns: true,
+    scrollY: 300
 });
 
-new DataTable('#addProductTable', {
+var products_table = {
     searching: true,
-    ordering: false,
+    ordering: true,
+    order: [[0, 'asc'], [1, 'asc']],
     paging: false,
-});
+    scrollY: 300
+}
+
+new DataTable('#createOrderTable', products_table);
+
+new DataTable('#addProductTable', products_table);
+
+new DataTable('#updateInventoryTable', products_table);
 
 var myModal = new bootstrap.Modal(document.getElementById('addProduct'), {keyboard: false})
 

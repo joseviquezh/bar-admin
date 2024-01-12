@@ -13,13 +13,16 @@ new DataTable('#ordersTable', {
     fixedColumns: true,
 });
 
-new DataTable('#createOrderTable', {
-    searching: true,
-    ordering: false,
+new DataTable('#inventoryTable', {
     paging: false,
+    scrollCollapse: true,
+    ordering: false,
+    searching: true,
+    fixedColumns: true,
 });
 
-new DataTable('#addProductTable', {
+
+new DataTable('#productsTable', {
     searching: true,
     ordering: false,
     paging: false,

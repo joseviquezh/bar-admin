@@ -6,34 +6,52 @@
     Inventario
 </h1>
 
-<br>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateInventory">Actualizar Inventario</button>
 
 <div>
-    <button>Actualizar Inventario</button>
-</div> 
+    <form method="POST" action="{% url 'update_inventory' %}">
+        <div id="updateInventory" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                <div class="modal-body">
+                    {% include 'products_table.html' with table_id="updateInventoryTable" %}
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12 pull-right">
+                        <button class="btn btn-primary btn-outline" type="submit">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
-<br>
-
-<table class="table table-hover table-striped table-bordered center">
-    <thead>
-        <tr>
-            <th>Categoria</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-        </tr>
-    </thead>
-    <tbody>
-    
-        {% for product in products %}
-        <tr>
-            <td>{{ product.category.name }}</td>
-            <td>{{ product.name }}</td>
-            <td>₡{{ product.price }}</td>
-            <td>{{ product.quantity|default_if_none:"N/A" }} </td>
-        </tr>
-        {% endfor %}
-    <tbody>
-</table>        
+<div class="container">
+    <table id="inventoryTable" class="table table-hover table-striped table-bordered center">
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            {% for product in products %}
+            <tr>
+                <td>{{ product.category.name }}</td>
+                <td>{{ product.name }}</td>
+                <td>₡{{ product.price }}</td>
+                <td>{{ product.quantity|default_if_none:"N/A" }} </td>
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table> 
+</div>
+       
 
 {% endblock %}
