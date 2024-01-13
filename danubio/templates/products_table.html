@@ -17,6 +17,7 @@
             <td>
                 {% if product.quantity and "orders" in request.path %}
                     <select name="{{ product.id }}-quantity" id="{{ product.id }}-quantity">
+                        <option value="0">0</option>
                         {% with ''|center:product.quantity as range %}
                         {% for _ in range %}
                             <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
