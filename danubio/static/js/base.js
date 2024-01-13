@@ -134,19 +134,23 @@ document.addEventListener('click', function(e){
             "url" : detailUrl,
             "type" : "GET",
             "success" : function(orderDetails) {              
-                    block_size = 40
-                    total_due = 0
-                    detailsString = "Producto" + "&nbsp;".repeat(block_size - (8 + 5)) + "Monto" + "<br>"
-                    detailsString += '='.repeat(block_size) + '<br>'
+                    var block_size = 40;
+                    var total_due = 0;
+                    var detailsString = "Cant Producto" + " ".repeat(22) + "Monto<br>";
+                    detailsString += '='.repeat(block_size) + '<br>';
                     Object.keys(orderDetails).forEach(function(key) {
-                        value = orderDetails[key]
-                        var items = key + "(" + value["quantity"] + ")"
-                        detailsString += items + '.'.repeat(block_size - (items.length + value["total_due"].toString().length) ) + value["total_due"] + '<br>'
-                        total_due += value["total_due"]
+                        var value = orderDetails[key];
+                        var total = value["total_due"].toString();
+                        var total_string = "₡" + total;
+                        var quantity = value["quantity"].toString();
+                        var items = quantity + " ".repeat((5 - quantity.length)) + key;
+                        detailsString += items + '.'.repeat(block_size - (items.length + total_string.length)) + total_string + '<br>';
+                        total_due += parseInt(total);
                     });
-                    detailsString += '-'.repeat(block_size) + '<br>'
-                    detailsString += "Total" + '.'.repeat(block_size - (5 + total_due.toString().length)) + total_due + '<br>'
-
+                    detailsString += '-'.repeat(block_size) + '<br>';
+                    total_due = "₡" + total_due
+                    detailsString += "Total" + '.'.repeat(block_size - (5 + total_due.toString().length)) + total_due + '<br>';
+                    detailsString = detailsString.replaceAll(" ", "&nbsp;")
                     document.getElementById('orderDetails').innerHTML = detailsString;
             },
             "error" : function(response, error)
