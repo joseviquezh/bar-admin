@@ -79,11 +79,9 @@ def order_details(request, order_id):
 def close_order(request):
     if request.method == 'POST':
         orderId = int(request.POST.get("closeOrderOrderId"))
-        # orderProducts = OrderProduct.objects.filter(order=orderId)
-        # for orderProduct in orderProducts:
-        #     Product.objects.filter(pk=orderProduct.product.pk).update(quantity=F('quantity')-1)
         order = Order.objects.get(pk=orderId)
         order.payed = True
+        order.payment_method = request.POST.get("paymentMethod")
         order.save()
         return redirect(reverse_lazy('orders'))
     else:
