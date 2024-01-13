@@ -15,7 +15,8 @@ def add_products_util(request, order):
             productId = int(key.strip("-quantity"))
             for _ in range(int(value)):
                 product = Product.objects.get(pk=productId)
-                product.quantity -= 1
+                if product.quantity:
+                    product.quantity -= 1
                 product.save()
                 OrderProduct.objects.create(order=order, product=product)
     orderProducts = OrderProduct.objects.filter(order=order)
