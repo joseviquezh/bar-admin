@@ -36,6 +36,7 @@ def create_order(request):
         customer = request.POST.get('customer')
         order = Order(customer=customer, date=date.today())
         order.save()
+        print(request.body)
         add_products_util(request, order)
 
         return redirect(reverse_lazy('orders'))
