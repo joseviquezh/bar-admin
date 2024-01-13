@@ -14,7 +14,19 @@
             <td>{{ product.category.name }}</td>
             <td>{{ product.name }}</td>
             <td>₡{{ product.price }}</td>
-            <td><input name="{{ product.id }}-quantity" value="0"/></td>
+            <td>
+                {% if product.quantity and "orders" in request.path %}
+                    <select name="{{ product.id }}-quantity" id="{{ product.id }}-quantity">
+                        {% with ''|center:product.quantity as range %}
+                        {% for _ in range %}
+                            <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                        {% endfor %}
+                        {% endwith %}
+                    </select>
+                {% else %}
+                    <input name="{{ product.id }}-quantity" value="0" size="4"/>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     <tbody>

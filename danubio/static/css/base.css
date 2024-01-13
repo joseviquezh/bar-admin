@@ -9,3 +9,7 @@ div.dataTables_wrapper {
 code {
     color: black;
 }
+
+input { 
+    text-align: center; 
+}
