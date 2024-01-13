@@ -6,22 +6,53 @@ new DataTable('#ordersTable', {
     "columns": [
         null,
         null,
-        null,
         { "width": "1%" },
         { "width": "1%" }
     ],
     fixedColumns: true,
-    scrollY: 300
+    scrollY: 300,
 });
 
-new DataTable('#inventoryTable', {
+// var collapsedGroups = {};
+
+var inventoryTable = new DataTable('#inventoryTable', {
     paging: false,
     scrollCollapse: true,
     ordering: true,
     order: [[0, 'asc'], [1, 'asc']],
     searching: true,
     fixedColumns: true,
-    scrollY: 300
+    scrollY: 300,
+    rowGroup: {
+        dataSrc: [0],
+
+        // startRender: function (rows, group) {
+        //     var not_collapsed = !!collapsedGroups[group];
+
+        //     // Swap this to show the group expanded
+        //     rows.nodes().each(function (r) {
+        //         r.style.display = not_collapsed ? '' : 'none';
+        //     });    
+
+        //     // Add category name to the <tr>. NOTE: Hardcoded colspan
+        //     return $('<tr/>')
+        //         .append('<td colspan="8">' + group + ' (' + rows.count() + ')</td>')
+        //         .attr('data-name', group)
+        //         .toggleClass('collapsed', not_collapsed);
+        // }
+    },
+    columnDefs: [
+        {
+            targets: [0],
+            visible: false
+        }
+    ]
+});
+
+$("#inventoryTable tbody").on('click', 'tr.group-start', function () {
+    var name = $(this).data('name');
+    collapsedGroups[name] = !collapsedGroups[name];
+    inventoryTable.draw();
 });
 
 var products_table = {
@@ -29,15 +60,56 @@ var products_table = {
     ordering: true,
     order: [[0, 'asc'], [1, 'asc']],
     paging: false,
-    scrollY: 300
+    scrollY: 300,
+    rowGroup: {
+        dataSrc: [0],
+
+        // startRender: function (rows, group) {
+        //     var not_collapsed = !!collapsedGroups[group];
+
+        //     // Swap this to show the group expanded
+        //     rows.nodes().each(function (r) {
+        //         r.style.display = not_collapsed ? '' : 'none';
+        //     });    
+
+        //     // Add category name to the <tr>. NOTE: Hardcoded colspan
+        //     return $('<tr/>')
+        //         .append('<td colspan="8">' + group + ' (' + rows.count() + ')</td>')
+        //         .attr('data-name', group)
+        //         .toggleClass('collapsed', not_collapsed);
+        // }
+    },
+    columnDefs: [
+        {
+            targets: [0],
+            visible: false
+        }
+    ]
 }
 
-new DataTable('#createOrderTable', products_table);
+var createOrderTable = new DataTable('#createOrderTable', products_table);
+// $("#createOrderTable tbody").on('click', 'tr.group-start', function () {
+//     var name = $(this).data('name');
+//     collapsedGroups[name] = !collapsedGroups[name];
+//     createOrderTable.draw();
+// });
+createOrderTable.on( 'draw', function () {
+    console.log( 'Table redrawn' );
+} );
 
-new DataTable('#addProductTable', products_table);
+var addProductTable = new DataTable('#addProductTable', products_table);
+// $("#addProductTable tbody").on('click', 'tr.group-start', function () {
+//     var name = $(this).data('name');
+//     collapsedGroups[name] = !collapsedGroups[name];
+//     addProductTable.draw();
+// });
 
-new DataTable('#updateInventoryTable', products_table);
-
+var updateInventoryTable = new DataTable('#updateInventoryTable', products_table);
+// $("#updateInventoryTable tbody").on('click', 'tr.group-start', function () {
+//     var name = $(this).data('name');
+//     collapsedGroups[name] = !collapsedGroups[name];
+//     updateInventoryTable.draw();
+// });
 
 document.addEventListener('click', function(e){
     if(e.target.tagName=="BUTTON" && e.target.id=="addProductButton"){
@@ -55,11 +127,11 @@ document.addEventListener('click', function(e){
 
         var orderId = e.target.getAttribute('data-order-id');
         var detailUrl = e.target.getAttribute('data-detail-url');
-        console.log(detailUrl + "/" + orderId)
 
         $('#closeOrderOrderId').val(orderId);
+
         $.ajax({
-            "url" : detailUrl + "/" + orderId,
+            "url" : detailUrl,
             "type" : "GET",
             "success" : function(data) {              
                     var orderDetails= JSON.stringify(data);

@@ -37,7 +37,6 @@ def create_order(request):
         customer = request.POST.get('customer')
         order = Order(customer=customer, date=date.today())
         order.save()
-        print(request.body)
         add_products_util(request, order)
 
         return redirect(reverse_lazy('orders'))
@@ -73,8 +72,6 @@ def order_details(request, order_id):
                 orders_details[orderProduct.product.name] = {"quantity": 0, "total_due": 0}
             orders_details[orderProduct.product.name]["quantity"] += 1
             orders_details[orderProduct.product.name]["total_due"] = orders_details[orderProduct.product.name]["quantity"] * orderProduct.product.price
-        print(orders_details)
-
         return HttpResponse(dumps(orders_details), content_type="application/json")
     else:
         return HttpResponse("Invalid request method.")

@@ -5,3 +5,7 @@
 div.dataTables_wrapper {
     margin: 0 auto;
 }
+
+code {
+    color: black;
+}

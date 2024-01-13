@@ -93,6 +93,9 @@ var createOrderTable = new DataTable('#createOrderTable', products_table);
 //     collapsedGroups[name] = !collapsedGroups[name];
 //     createOrderTable.draw();
 // });
+createOrderTable.on( 'draw', function () {
+    console.log( 'Table redrawn' );
+} );
 
 var addProductTable = new DataTable('#addProductTable', products_table);
 // $("#addProductTable tbody").on('click', 'tr.group-start', function () {
@@ -130,10 +133,21 @@ document.addEventListener('click', function(e){
         $.ajax({
             "url" : detailUrl,
             "type" : "GET",
-            "success" : function(data) {              
-                    var orderDetails= JSON.stringify(data);
-                    console.log(orderDetails)
-                    $('#orderDetails').text(orderDetails);
+            "success" : function(orderDetails) {              
+                    block_size = 40
+                    total_due = 0
+                    detailsString = "Producto" + "&nbsp;".repeat(block_size - (8 + 5)) + "Monto" + "<br>"
+                    detailsString += '='.repeat(block_size) + '<br>'
+                    Object.keys(orderDetails).forEach(function(key) {
+                        value = orderDetails[key]
+                        var items = key + "(" + value["quantity"] + ")"
+                        detailsString += items + '.'.repeat(block_size - (items.length + value["total_due"].toString().length) ) + value["total_due"] + '<br>'
+                        total_due += value["total_due"]
+                    });
+                    detailsString += '-'.repeat(block_size) + '<br>'
+                    detailsString += "Total" + '.'.repeat(block_size - (5 + total_due.toString().length)) + total_due + '<br>'
+
+                    document.getElementById('orderDetails').innerHTML = detailsString;
             },
             "error" : function(response, error)
             {
