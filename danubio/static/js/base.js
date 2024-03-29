@@ -32,7 +32,7 @@ var inventoryTable = new DataTable('#inventoryTable', {
         //     // Swap this to show the group expanded
         //     rows.nodes().each(function (r) {
         //         r.style.display = not_collapsed ? '' : 'none';
-        //     });    
+        //     });
 
         //     // Add category name to the <tr>. NOTE: Hardcoded colspan
         //     return $('<tr/>')
@@ -70,7 +70,7 @@ var products_table = {
         //     // Swap this to show the group expanded
         //     rows.nodes().each(function (r) {
         //         r.style.display = not_collapsed ? '' : 'none';
-        //     });    
+        //     });
 
         //     // Add category name to the <tr>. NOTE: Hardcoded colspan
         //     return $('<tr/>')
@@ -133,7 +133,7 @@ document.addEventListener('click', function(e){
         $.ajax({
             "url" : detailUrl,
             "type" : "GET",
-            "success" : function(orderDetails) {              
+            "success" : function(orderDetails) {
                     var block_size = 40;
                     var total_due = 0;
                     var detailsString = "Cant Producto" + " ".repeat(22) + "Monto<br>";
@@ -158,7 +158,51 @@ document.addEventListener('click', function(e){
                 console.log("ERROR: " + JSON.stringify(response));
             }
         });
-        
+
         modal.show();
     }
 })
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+const ctx = document.getElementById('myChart').getContext('2d');
+var datasets = new Array();
+
+Object.keys(data).forEach(key => {
+    datasets.push({
+        backgroundColor: 'transparent',
+        borderColor: getRandomColor(),
+        label: key,
+        data: data[key]
+    })
+    console.log(key, data[key]);
+});
+
+// Render the chart
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: Array.from(labels),
+        datasets: datasets,
+    },
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        stacked: false,
+        elements: {
+            line: {
+                tension: 0
+            }
+        }
+    },
+});
