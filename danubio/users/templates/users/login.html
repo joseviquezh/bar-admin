@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block content %}
+<form method="POST" novalidate>
+	{% csrf_token %}
+	<img src="{% static 'danubio.png' %}">
+	<br>
+	<br>
+	{{form.as_p}}
+	<input type="submit" value="Login" />
+</form>
+
+{% endblock content%}

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import  login_required
 from django.shortcuts import render
 from json import dumps
 from orders.models import OrderProduct
@@ -7,6 +8,7 @@ from datetime import datetime, timedelta
 
 # Create your views here.
 
+@login_required
 def home(request):
     dataset = {}
     data = {}

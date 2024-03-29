@@ -1,4 +1,5 @@
 from datetime import date
+from django.contrib.auth.decorators import  login_required
 from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -8,7 +9,10 @@ from json import dumps
 from orders.models import Order, OrderProduct
 
 
+
 # Create your views here.
+
+@login_required
 def add_products_util(request, order):
     for key, value in request.POST.items():
         if "-quantity" in key:
@@ -26,12 +30,14 @@ def add_products_util(request, order):
     order.total_ammount = total_ammount
     order.save()
 
+@login_required
 def home(request):
     orders = Order.objects.filter(date=date.today(), payed=False)
     products = Product.objects.all()
     context = {'orders': orders, 'products': products}
     return render(request, 'orders/index.html', context)
 
+@login_required
 def create_order(request):
     if request.method == 'POST':
         customer = request.POST.get('customer')
@@ -43,6 +49,7 @@ def create_order(request):
     else:
         return HttpResponse("Invalid request method.")
 
+@login_required
 def add_products(request):
     if request.method == 'POST':
         orderId = int(request.POST.get("addProductOrderId"))
@@ -52,6 +59,7 @@ def add_products(request):
     else:
         return HttpResponse("Invalid request method.")
 
+@login_required
 def order_details(request, order_id):
     if request.method == 'GET':
         """
@@ -76,6 +84,7 @@ def order_details(request, order_id):
     else:
         return HttpResponse("Invalid request method.")
 
+@login_required
 def close_order(request):
     if request.method == 'POST':
         orderId = int(request.POST.get("closeOrderOrderId"))
