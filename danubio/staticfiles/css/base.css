@@ -21,3 +21,8 @@ input {
 @media screen and (max-width: 767px) {
     .row.content {height: auto;}
 }
+
+.nav-logo {
+    float: left;
+  display: inline-block;
+}
