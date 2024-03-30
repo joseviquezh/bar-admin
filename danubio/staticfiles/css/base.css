@@ -26,3 +26,19 @@ input {
     float: left;
   display: inline-block;
 }
+
+.grid-container .grid-row{
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+    display: flex;
+}
+.grid-item {
+    width: 50%;
+    height: auto;
+    float: left;
+    border: 2px solid #212529;
+    border-radius: 20px;
+    margin-right:20px;
+    display: block;
+}

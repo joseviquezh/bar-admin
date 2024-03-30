@@ -96,4 +96,29 @@ def home(request):
     context["dailyLabels"] = list(labels)
     context["dailyData"] = dumps(dataset, cls=DjangoJSONEncoder)
 
+    # Historical daily average sales
+    average_sales = [0, 0, 0, 0, 0, 0]
+    days = {"Monday": {"count": 0, "amount": 0, "index": 0},
+            "Tuesday": {"count": 0, "amount": 0, "index": 1},
+            "Wednesday": {"count": 0, "amount": 0, "index": 2},
+            "Thursday": {"count": 0, "amount": 0, "index": 3},
+            "Friday": {"count": 0, "amount": 0, "index": 4},
+            "Saturday": {"count": 0, "amount": 0, "index": 5},}
+
+    sales = (OrderProduct.objects
+             .filter(order__date__gte=datetime.now() - timedelta(days=30), order__payed=True)
+             .values('order__date', 'order__total_ammount')
+             .order_by('order__date', 'order__total_ammount')
+             )
+
+    for sale in sales:
+        day = sale["order__date"].strftime("%A")
+        days[day]["amount"] += sale["order__total_ammount"]
+        days[day]["count"] += 1
+
+    for _, value in days.items():
+        if value["count"] > 0:
+            average_sales[value["index"]] = round(value["amount"] / value["count"])
+
+    context["averageData"] = average_sales
     return render(request, 'reports/index.html', context)

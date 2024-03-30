@@ -156,6 +156,57 @@ function getRandomColor() {
     return color;
   }
 
+  const averageSalesCanvas = document.getElementById('averageSales').getContext('2d');
+  var datasets = new Array();
+  backgroundColors = new Array();
+  
+  for (let i = 0; i < 6; i++) {
+    random_color = getRandomColor();
+    backgroundColors.push(random_color)
+  }
+  
+  // Render the chart
+  const averageSalesChart = new Chart(averageSalesCanvas, {
+    type: 'bar',
+      data: {
+          labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+          datasets: [{
+            label: "Ganancia Promedio",
+            backgroundColor: backgroundColors,
+            data: averageData
+          }]
+      },
+    options: {
+        scales: {
+            y: {
+              ticks: {
+                stepSize: 1
+              },
+              beginAtZero: true,
+            }
+          }
+    },
+    
+    //   type: 'line',
+    //   data: {
+    //       labels: Array.from(averageLabels),
+    //       datasets: datasets,
+    //   },
+    //   options: {
+    //       responsive: true,
+    //       interaction: {
+    //           mode: 'index',
+    //           intersect: false,
+    //       },
+    //       stacked: false,
+    //       elements: {
+    //           line: {
+    //               tension: 0
+    //           }
+    //       }
+    //   },
+  });
+
 const productSalesCanvas = document.getElementById('productSales').getContext('2d');
 var datasets = new Array();
 

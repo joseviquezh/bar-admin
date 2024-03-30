@@ -13,7 +13,6 @@ new DataTable('#ordersTable', {
     scrollY: 300,
 });
 
-// var collapsedGroups = {};
 
 var inventoryTable = new DataTable('#inventoryTable', {
     paging: false,
@@ -25,21 +24,6 @@ var inventoryTable = new DataTable('#inventoryTable', {
     scrollY: 300,
     rowGroup: {
         dataSrc: [0],
-
-        // startRender: function (rows, group) {
-        //     var not_collapsed = !!collapsedGroups[group];
-
-        //     // Swap this to show the group expanded
-        //     rows.nodes().each(function (r) {
-        //         r.style.display = not_collapsed ? '' : 'none';
-        //     });
-
-        //     // Add category name to the <tr>. NOTE: Hardcoded colspan
-        //     return $('<tr/>')
-        //         .append('<td colspan="8">' + group + ' (' + rows.count() + ')</td>')
-        //         .attr('data-name', group)
-        //         .toggleClass('collapsed', not_collapsed);
-        // }
     },
     columnDefs: [
         {
@@ -172,24 +156,108 @@ function getRandomColor() {
     return color;
   }
 
-const ctx = document.getElementById('myChart').getContext('2d');
+  const averageSalesCanvas = document.getElementById('averageSales').getContext('2d');
+  var datasets = new Array();
+  backgroundColors = new Array();
+  
+  for (let i = 0; i < 6; i++) {
+    random_color = getRandomColor();
+    backgroundColors.push(random_color)
+  }
+  
+  // Render the chart
+  const averageSalesChart = new Chart(averageSalesCanvas, {
+    type: 'bar',
+      data: {
+          labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+          datasets: [{
+            label: "Ganancia Promedio",
+            backgroundColor: backgroundColors,
+            data: averageData
+          }]
+      },
+    options: {
+        scales: {
+            y: {
+              ticks: {
+                stepSize: 1
+              },
+              beginAtZero: true,
+            }
+          }
+    },
+    
+    //   type: 'line',
+    //   data: {
+    //       labels: Array.from(averageLabels),
+    //       datasets: datasets,
+    //   },
+    //   options: {
+    //       responsive: true,
+    //       interaction: {
+    //           mode: 'index',
+    //           intersect: false,
+    //       },
+    //       stacked: false,
+    //       elements: {
+    //           line: {
+    //               tension: 0
+    //           }
+    //       }
+    //   },
+  });
+
+const productSalesCanvas = document.getElementById('productSales').getContext('2d');
 var datasets = new Array();
 
-Object.keys(data).forEach(key => {
+Object.keys(productData).forEach(key => {
     datasets.push({
         backgroundColor: 'transparent',
         borderColor: getRandomColor(),
         label: key,
-        data: data[key]
+        data: productData[key]
     })
-    console.log(key, data[key]);
 });
 
 // Render the chart
-const chart = new Chart(ctx, {
+const productSalesChart = new Chart(productSalesCanvas, {
     type: 'line',
     data: {
-        labels: Array.from(labels),
+        labels: Array.from(productLabels),
+        datasets: datasets,
+    },
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        stacked: false,
+        elements: {
+            line: {
+                tension: 0
+            }
+        }
+    },
+});
+
+const dailySalesCanvas = document.getElementById('dailySales').getContext('2d');
+var datasets = new Array();
+
+Object.keys(dailyData).forEach(key => {
+    datasets.push({
+        backgroundColor: 'transparent',
+        borderColor: getRandomColor(),
+        label: "Venta del día",
+        data: dailyData[key]
+    })
+});
+
+// Render the chart
+const dailySalesChart = new Chart(dailySalesCanvas, {
+    type: 'line',
+    data: {
+        labels: Array.from(dailyLabels),
         datasets: datasets,
     },
     options: {
