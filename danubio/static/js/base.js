@@ -196,22 +196,22 @@ const dailySalesChart = new Chart(dailySalesCanvas, {
     },
 });
 
-const licorSalesCanvas = document.getElementById('licorSales').getContext('2d');
+const cervezaSalesCanvas = document.getElementById('cervezaSales').getContext('2d');
 var datasets = new Array();
 
-Object.keys(licorDataset).forEach(key => {
+Object.keys(cervezaDataset).forEach(key => {
     datasets.push({
         backgroundColor: getRandomColor(),
         label: key,
-        data: licorDataset[key]
+        data: cervezaDataset[key]
     })
 });
 
 // Render the chart
-const licorSalesChart = new Chart(licorSalesCanvas, {
+const cervezaSalesChart = new Chart(cervezaSalesCanvas, {
     type: 'bar',
     data: {
-        labels: Array.from(licorLabels),
+        labels: Array.from(cervezaLabels),
         datasets: datasets,
     },
     options: {

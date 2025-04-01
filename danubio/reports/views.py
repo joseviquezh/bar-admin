@@ -44,7 +44,7 @@ def home(request):
     context["closure"] = day_data
 
     # Historical daily average sales
-    average_sales = [0, 0, 0, 0, 0, 0]
+    average_sales = [0, 0, 0, 0, 0, 0, 0]
     days = {"Monday": {"count": 0, "amount": 0, "index": 0},
             "Tuesday": {"count": 0, "amount": 0, "index": 1},
             "Wednesday": {"count": 0, "amount": 0, "index": 2},
@@ -98,8 +98,8 @@ def home(request):
     # Historical products sales data
     bocasLabels = set()
     bocasDataset = {}
-    licorLabels = set()
-    licorDataset = {}
+    cervezaLabels = set()
+    cervezaDataset = {}
     data = {}
     
     sales = (OrderProduct.objects
@@ -111,9 +111,11 @@ def home(request):
     if sales:
         for sale in sales:
             product = sale["product__name"]
-            category = "licor"
+            category = "otros"
             if sale["product__category__name"].lower() == "bocas":
                 category = "boca"
+            elif "cerveza" in sale["product__category__name"].lower():
+                category = "cerveza"
             quantity = sale["quantity"]
             
             if category not in data:
@@ -126,13 +128,13 @@ def home(request):
             
             data[category]["products"][product] += quantity
 
-        licorLabels = sorted(list(data["licor"]["labels"]))
+        cervezaLabels = sorted(list(data["cerveza"]["labels"]))
 
-        for product in data["licor"]["products"]:
-            licorDataset[product] = [0] * len(licorLabels)
-            for idx, label in enumerate(licorLabels, 0):
+        for product in data["cerveza"]["products"]:
+            cervezaDataset[product] = [0] * len(cervezaLabels)
+            for idx, label in enumerate(cervezaLabels, 0):
                 if label == product:
-                    licorDataset[product][idx] = data["licor"]["products"][product]
+                    cervezaDataset[product][idx] = data["cerveza"]["products"][product]
         
         bocasLabels = sorted(list(data["boca"]["labels"]))
 
@@ -142,8 +144,8 @@ def home(request):
                 if label == product:
                     bocasDataset[product][idx] = data["boca"]["products"][product]
 
-    context["licorLabels"] = list(licorLabels)
-    context["licorDataset"] = dumps(licorDataset, cls=DjangoJSONEncoder)
+    context["cervezaLabels"] = list(cervezaLabels)
+    context["cervezaDataset"] = dumps(cervezaDataset, cls=DjangoJSONEncoder)
     context["bocasLabels"] = list(bocasLabels)
     context["bocasDataset"] = dumps(bocasDataset, cls=DjangoJSONEncoder)
 
