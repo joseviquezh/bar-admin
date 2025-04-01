@@ -23,8 +23,10 @@ input {
 }
 
 .nav-logo {
-    float: left;
+  float: left;
   display: inline-block;
+  width: 75px;
+  height: 75px;
 }
 
 .grid-container .grid-row{
@@ -41,4 +43,24 @@ input {
     border-radius: 20px;
     margin-right:20px;
     display: block;
+}
+
+.buttons {
+    width: 200px;
+    margin: 0 auto;
+    display: inline;
+}
+
+.action_btn {
+    width: 200px;
+    margin: 0 auto;
+    display: inline;
+}
+
+.dataTables_scrollHeadInner { 
+    width:100% !important;
+}
+
+.dataTables_scrollHeadInner table {
+    width:100% !important;
 }

@@ -12,32 +12,61 @@
             <h2>
                 Cierre de caja
             </h2>
-            <code>
-                Metodo de pago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monto
-                <br>
-                ========================
-                <br>
-                -------- Licor --------
-                <br>
-                Tarjeta............₡{{ closure.licor.tarjeta|default:0  }}
-                <br>
-                Efectivo...........₡{{ closure.licor.efectivo|default:0 }}
-                <br>
-                -------- Bocas --------
-                <br>
-                Tarjeta............₡{{ closure.bocas.tarjeta|default:0 }}
-                <br>
-                Efectivo...........₡{{ closure.bocas.efectivo|default:0 }}
-                <br>
-                ________________________
-                <br>
-                -------- Total  --------
-                <br>
-                Tarjeta............₡{{ closure.total.tarjeta|default:0 }}
-                <br>
-                Efectivo...........₡{{ closure.total.efectivo|default:0 }}
-            </code>
+
+            <table id="summaryTable" class="table table-hover table-striped table-bordered center">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bocas Efectivo</td>
+                        <td>₡ {{ closure.bocas.efectivo|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bocas Tarjeta</td>
+                        <td>₡ {{ closure.bocas.tarjeta|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bocas SINPE</td>
+                        <td>₡ {{ closure.bocas.sinpe|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Licor Efectivo</td>
+                        <td>₡ {{ closure.licor.efectivo|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Licor Tarjeta</td>
+                        <td>₡ {{ closure.licor.tarjeta|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Licor SINPE</td>
+                        <td>₡ {{ closure.licor.sinpe|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Efectivo</td>
+                        <td>₡ {{ closure.total.efectivo|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Tarjeta</td>
+                        <td>₡ {{ closure.total.tarjeta|default:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total SINPE</td>
+                        <td>₡ {{ closure.total.sinpe|default:0 }}</td>
+                    </tr>
+                <tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total</td>
+                        <td>₡ {{ closure.total_total|default:0 }}</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
+
         <div class="grid-item">
             <h2>
                 Ganancias Diarias Promedio
@@ -48,6 +77,7 @@
             </script>
         </div>
     </div>
+
     <div class="grid-row">
         <div class="grid-item" style="width: 100%!important; height: 100%!important;">
             <h2>
@@ -60,15 +90,27 @@
             </script>
         </div>
     </div>
+
     <div class="grid-row">
-        <div class="grid-item" style="width: 100%!important; height: 100%!important;">
+        <div class="grid-item">
             <h2>
-                Productos Vendidos
+                Licor Vendido
             </h2>
-            <canvas id="productSales" style="margin-bottom: 30px; width: 100%; height: 400px;"></canvas>
+            <canvas id="licorSales" style="margin-bottom: 30px; width: 100%; height: 400px;"></canvas>
             <script>
-                productLabels = {{ productLabels | safe }}
-                productData = {{ productData | safe }}
+                licorLabels = {{ licorLabels | safe }}
+                licorDataset = {{ licorDataset | safe }}
+            </script>
+        </div>
+        
+        <div class="grid-item">
+            <h2>
+                Bocas Vendidas
+            </h2>
+            <canvas id="bocaSales" style="margin-bottom: 30px; width: 100%; height: 400px;"></canvas>
+            <script>
+                bocasLabels = {{ bocasLabels | safe }}
+                bocasDataset = {{ bocasDataset | safe }}
             </script>
         </div>
     </div>

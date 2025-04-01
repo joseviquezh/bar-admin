@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -86,8 +86,8 @@ DATABASES = {
         'NAME': config('MYSQL_DATABASE'),
         'USER': config('MYSQL_USER'),
         'PASSWORD': config('MYSQL_PASSWORD'),
-        'HOST': config('DB_HOST', 'db'),  # Use 'db' as default from .env
-        'PORT': config('DB_PORT', '3306'),  # Use '3306' as default from .env
+        'HOST': config('MYSQL_DB_HOST', 'db'),  # Use 'db' as default from .env
+        'PORT': config('MYSQL_DB_PORT', '3306'),  # Use '3306' as default from .env
     }
 }
 
@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Central'
 
 USE_I18N = True
 

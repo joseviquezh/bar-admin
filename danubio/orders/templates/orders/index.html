@@ -75,6 +75,7 @@
                     <select name="paymentMethod" id="paymentMethod">
                         <option value="Efectivo" selected>Efectivo</option>
                         <option value="Tarjeta">Tarjeta</option>
+                        <option value="Tarjeta">SINPE</option>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -93,8 +94,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>Total</th>
-                <th></th>
-                <th></th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -102,8 +102,12 @@
             <tr>
                 <td>{{ order.customer }}</td>
                 <td>₡{{ order.total_ammount }}</td>
-                <td><button id="addProductButton" type="button" data-order-id="{{ order.id }}">+</button></td>
-                <td><button id="payButton" type="button" data-order-id="{{ order.id }}" data-detail-url="{% url 'order_details' order.id %}">Pagar</button></td>
+                <td>
+                    <div>
+                        <button id="addProductButton" type="button" class="btn btn-primary" data-order-id="{{ order.id }}">Agregar</button>
+                        <button id="payButton" type="button" class="btn btn-primary" data-order-id="{{ order.id }}" data-detail-url="{% url 'order_details' order.id %}">Pagar</button>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         <tbody>
