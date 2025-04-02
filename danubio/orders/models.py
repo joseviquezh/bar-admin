@@ -9,7 +9,7 @@ class Order(models.Model):
     payed = models.BooleanField(default=False)
     date = models.DateField()
     total_ammount = models.IntegerField(default=0)
-    payment_method = models.CharField(max_length=255, default="")
+    payment_method = models.CharField(max_length=255, default="", blank=True, null=True)
 
     def __str__(self):
         return f"{self.customer} - {self.date}"
@@ -18,3 +18,6 @@ class Order(models.Model):
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.order} - {self.product}"

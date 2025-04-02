@@ -32,14 +32,15 @@ def add_products_util(request, order):
 
 @login_required
 def home(request):
-    orders = Order.objects.filter(date=date.today(), payed=False)
+    open_orders = Order.objects.filter(date=date.today(), payed=False)
+    closed_orders = Order.objects.filter(date=date.today(), payed=True)
     products = Product.objects.all()
-    context = {'orders': orders, 'products': products}
+    context = {'open_orders': open_orders, 'closed_orders': closed_orders, 'products': products}
     return render(request, 'orders/index.html', context)
 
 @login_required
 def create_order(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('customer'):
         customer = request.POST.get('customer')
         order = Order(customer=customer, date=date.today())
         order.save()
