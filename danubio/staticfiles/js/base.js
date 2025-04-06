@@ -1,4 +1,4 @@
-new DataTable('#ordersTable', {
+new DataTable('#openOrdersTable', {
     paging: false,
     scrollCollapse: true,
     ordering: true,
@@ -10,9 +10,29 @@ new DataTable('#ordersTable', {
     ],
     fixedColumns: true,
     scrollY: 300,
-    info: false
+    info: false,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
+    },
 });
 
+new DataTable('#closedOrdersTable', {
+    paging: false,
+    scrollCollapse: true,
+    ordering: true,
+    searching: true,
+    "columns": [
+        null,
+        null,
+        { "width": "15%" },
+    ],
+    fixedColumns: true,
+    scrollY: 300,
+    info: false,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
+    },
+});
 
 new DataTable('#inventoryTable', {
     paging: false,
@@ -31,7 +51,10 @@ new DataTable('#inventoryTable', {
             visible: false
         }
     ],
-    info: false
+    info: false,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
+    },
 });
 
 new DataTable('#createOrderTable', {
@@ -51,7 +74,10 @@ new DataTable('#createOrderTable', {
             visible: false
         }
     ],
-    info: false
+    info: false,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
+    },
 });
 
 new DataTable('#updateInventoryTable', {
@@ -72,6 +98,32 @@ new DataTable('#updateInventoryTable', {
         }
     ],
     info: false,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
+    },
+});
+
+new DataTable('#addProductTable', {
+    paging: false,
+    scrollCollapse: true,
+    order: [[0, 'asc'], [1, 'asc']],
+    ordering: true,
+    searching: true,
+    fixedColumns: true,
+    scrollY: 300,
+    rowGroup: {
+        dataSrc: [0],
+    },
+    columnDefs: [
+        {
+            targets: [0],
+            visible: false
+        }
+    ],
+    info: false,
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
+    },
 });
 
 document.addEventListener('click', function(e){
@@ -141,7 +193,7 @@ const averageSalesCanvas = document.getElementById('averageSales').getContext('2
 const averageSalesChart = new Chart(averageSalesCanvas, {
     type: 'bar',
     data: {
-        labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Sunday"],
+        labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
         datasets: [{
             label: "Ganancia Promedio",
             backgroundColor: getRandomColor(),

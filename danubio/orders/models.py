@@ -1,6 +1,7 @@
 from django.db import models
 from inventory.models import Product
-
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 # Create your models here.
     
 # An order being made by a customer
@@ -21,3 +22,10 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return f"{self.order} - {self.product}"
+
+@receiver(post_delete, sender=OrderProduct)
+def adjust_total_amount(sender, instance, using, **kwargs):
+    order = instance.order
+    new_total_ammount = order.total_ammount - instance.product.price
+    order.total_ammount = new_total_ammount
+    order.save()
