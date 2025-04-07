@@ -70,13 +70,32 @@
                 <div class="modal-body">
                     <input type="hidden" name="closeOrderOrderId" id="closeOrderOrderId" value=""/>
                     <code id="orderDetails"></code>
+                    <div>
+                        <input type="hidden" name="total_amount" id="total_amount" value=0 readonly>
+                    </div>
                     <br>
-                    <label for="paymentMethod">Metodo de pago</label>
-                    <select name="paymentMethod" id="paymentMethod">
-                        <option value="Efectivo" selected>Efectivo</option>
-                        <option value="Tarjeta">Tarjeta</option>
-                        <option value="Sinpe">SINPE</option>
-                    </select>
+                    <div id="payomentDetails">
+                        <table style="margin: 0 auto;">
+                            <tr>
+                                <td>Metodo de pago</td>
+                                <td>
+                                    <select name="paymentMethod" id="paymentMethod" onchange="showHideRows()">
+                                        <option value="Tarjeta" selected>Tarjeta</option>
+                                        <option value="Efectivo">Efectivo</option>
+                                        <option value="Sinpe">SINPE</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="display: none" id="pay_amount_row">
+                                <td>Paga con</td>
+                                <td>₡<input type="show" name="pay_amount" id="pay_amount" value=0 maxlength="6" size="6"></td>
+                            </tr>
+                            <tr style="display: none" id="pay_return_row">
+                                <td>Vuelto</td>
+                                <td>₡<input type="show" name="pay_return" id="pay_return" value=0 maxlength="6" size="6" readonly></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-12 pull-right">

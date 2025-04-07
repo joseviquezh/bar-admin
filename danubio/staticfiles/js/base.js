@@ -163,10 +163,11 @@ document.addEventListener('click', function(e){
                         total_due += parseInt(total);
                     });
                     detailsString += '-'.repeat(block_size) + '<br>';
-                    total_due = "₡" + total_due
-                    detailsString += "Total" + '.'.repeat(block_size - (5 + total_due.toString().length)) + total_due + '<br>';
+                    total_due_str = "₡" + total_due
+                    detailsString += "Total" + '.'.repeat(block_size - (5 + total_due_str.toString().length)) + total_due_str + '<br>';
                     detailsString = detailsString.replaceAll(" ", "&nbsp;")
                     document.getElementById('orderDetails').innerHTML = detailsString;
+                    document.getElementById('total_amount').value = total_due;
             },
             "error" : function(response, error)
             {
@@ -177,6 +178,32 @@ document.addEventListener('click', function(e){
         modal.show();
     }
 })
+
+addEventListener("input", (e) => {
+    if(e.target.tagName=="INPUT" && e.target.id=="pay_amount"){
+        var total_due = parseInt(document.getElementById('total_amount').value);
+        var pay_amount = parseInt(document.getElementById("pay_amount").value);
+        var pay_return = document.getElementById("pay_return");
+        if (pay_amount > total_due){
+            pay_return.value = pay_amount - total_due;
+        } else {
+            pay_return.value = 0;
+        };
+    }
+});
+
+function showHideRows() {
+    var paymentMethod = document.getElementById("paymentMethod");
+    var pay_amount_row = document.getElementById("pay_amount_row");
+    var pay_return_row = document.getElementById("pay_return_row");
+    if (paymentMethod.value == "Efectivo") {
+        pay_amount_row.style.display = "";
+        pay_return_row.style.display = "";
+    } else {
+        pay_amount_row.style.display = "none";
+        pay_return_row.style.display = "none";
+    }
+}
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
