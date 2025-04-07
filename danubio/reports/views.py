@@ -128,21 +128,25 @@ def home(request):
             
             data[category]["products"][product] += quantity
 
-        cervezaLabels = sorted(list(data["cerveza"]["labels"]))
+        cervezaLabels = []
+        if "cerveza" in data:
+            cervezaLabels = sorted(list(data["cerveza"]["labels"]))
 
-        for product in data["cerveza"]["products"]:
-            cervezaDataset[product] = [0] * len(cervezaLabels)
-            for idx, label in enumerate(cervezaLabels, 0):
-                if label == product:
-                    cervezaDataset[product][idx] = data["cerveza"]["products"][product]
+            for product in data["cerveza"]["products"]:
+                cervezaDataset[product] = [0] * len(cervezaLabels)
+                for idx, label in enumerate(cervezaLabels, 0):
+                    if label == product:
+                        cervezaDataset[product][idx] = data["cerveza"]["products"][product]
         
-        bocasLabels = sorted(list(data["boca"]["labels"]))
+        bocasLabels = []
+        if "bocas" in data:
+            bocasLabels = sorted(list(data["boca"]["labels"]))
 
-        for product in data["boca"]["products"]:
-            bocasDataset[product] = [0] * len(bocasLabels)
-            for idx, label in enumerate(bocasLabels, 0):
-                if label == product:
-                    bocasDataset[product][idx] = data["boca"]["products"][product]
+            for product in data["boca"]["products"]:
+                bocasDataset[product] = [0] * len(bocasLabels)
+                for idx, label in enumerate(bocasLabels, 0):
+                    if label == product:
+                        bocasDataset[product][idx] = data["boca"]["products"][product]
 
     context["cervezaLabels"] = list(cervezaLabels)
     context["cervezaDataset"] = dumps(cervezaDataset, cls=DjangoJSONEncoder)
