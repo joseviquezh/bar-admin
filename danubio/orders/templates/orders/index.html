@@ -9,7 +9,7 @@
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newOrder">Nueva Orden</button>
 
 <div>
-    <form method="POST" action="{% url 'create_order' %}">
+    <form id="createOrderForm" method="POST" action="{% url 'create_order' %}">
         {% csrf_token %}        
         <div id="newOrder" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
@@ -20,7 +20,7 @@
                 <div class="modal-body">
                     <table class="center">
                         <td>Cliente</td>
-                        <td><input type="text" class="form-control" name="customer"></td>
+                        <td><input required type="text" class="form-control" name="customer"></td>
                     </table>
                     {% include 'products_table.html' with table_id="createOrderTable" %}
                 </div>
@@ -35,7 +35,7 @@
 </div> 
 
 <div>
-    <form method="POST" action="{% url 'add_products' %}">
+    <form id="addProductForm" method="POST" action="{% url 'add_products' %}">
         {% csrf_token %}
         <div id="addProduct" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">

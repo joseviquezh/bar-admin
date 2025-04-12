@@ -1,3 +1,42 @@
+function validateForm(event, table){
+
+    const rows = table.querySelectorAll('tr');
+    let isValid = false;
+
+    // Recorre cada fila
+    rows.forEach(row => {
+        // Busca el menú desplegable (select) en la fila
+        const select = row.querySelector('select');
+        const input = row.querySelector('input');
+        if(select && select.value !== '0'){
+            isValid = true;
+        } else if (input && input.value != '' && input.value != '0') {
+            isValid = true;
+        }
+    });
+
+    if (!isValid) {
+        event.preventDefault(); // Evita que el formulario se envíe
+        alert('Por favor especifique al menos un producto');
+    }
+}
+
+var createOrderForm = document.getElementById("createOrderForm")
+if(createOrderForm){
+    const createOrderTable = document.getElementById("createOrderTable");
+    createOrderForm.addEventListener('submit', function (event) {
+        validateForm(event, createOrderTable);
+    });
+}
+
+var addProductForm = document.getElementById("addProductForm")
+if(addProductForm){
+    const addProductTable = document.getElementById("addProductTable");
+    addProductForm.addEventListener('submit', function (event) {
+        validateForm(event, addProductTable);
+    });
+}
+
 new DataTable('#openOrdersTable', {
     paging: false,
     scrollCollapse: true,
@@ -214,123 +253,137 @@ function getRandomColor() {
     return color;
 }
 
-const averageSalesCanvas = document.getElementById('averageSales').getContext('2d');
+const averageSalesCanvas = document.getElementById('averageSales')
+if(averageSalesCanvas){
+    averageSalesCanvas.getContext('2d');
 
-// Render the chart
-const averageSalesChart = new Chart(averageSalesCanvas, {
-    type: 'bar',
-    data: {
-        labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
-        datasets: [{
-            label: "Ganancia Promedio",
-            backgroundColor: getRandomColor(),
-            data: averageData
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                ticks: {
-                stepSize: 1
-                },
-                beginAtZero: true,
-            }
-            }
-    }
-});
-
-const dailySalesCanvas = document.getElementById('dailySales').getContext('2d');
-var datasets = new Array();
-
-Object.keys(dailyData).forEach(key => {
-    datasets.push({
-        backgroundColor: 'transparent',
-        borderColor: getRandomColor(),
-        label: "Venta del día",
-        data: dailyData[key]
-    })
-});
-
-dailyLabels.sort()
-
-// Render the chart
-const dailySalesChart = new Chart(dailySalesCanvas, {
-    type: 'line',
-    data: {
-        labels: Array.from(dailyLabels),
-        datasets: datasets,
-    },
-    options: {
-        responsive: true,
-        interaction: {
-            mode: 'index',
-            intersect: false,
+    // Render the chart
+    const averageSalesChart = new Chart(averageSalesCanvas, {
+        type: 'bar',
+        data: {
+            labels: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
+            datasets: [{
+                label: "Ganancia Promedio",
+                backgroundColor: getRandomColor(),
+                data: averageData
+            }]
         },
-        stacked: false,
-        elements: {
-            line: {
-                tension: 0
+        options: {
+            scales: {
+                y: {
+                    ticks: {
+                    stepSize: 1
+                    },
+                    beginAtZero: true,
+                }
+                }
+        }
+    });
+}
+
+const dailySalesCanvas = document.getElementById('dailySales')
+if(dailySalesCanvas){
+
+    dailySalesCanvas.getContext('2d');
+    var datasets = new Array();
+
+    Object.keys(dailyData).forEach(key => {
+        datasets.push({
+            backgroundColor: 'transparent',
+            borderColor: getRandomColor(),
+            label: "Venta del día",
+            data: dailyData[key]
+        })
+    });
+
+    dailyLabels.sort()
+
+    // Render the chart
+    const dailySalesChart = new Chart(dailySalesCanvas, {
+        type: 'line',
+        data: {
+            labels: Array.from(dailyLabels),
+            datasets: datasets,
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            stacked: false,
+            elements: {
+                line: {
+                    tension: 0
+                }
+            }
+        },
+    });
+}
+
+const cervezaSalesCanvas = document.getElementById('cervezaSales')
+if (cervezaSalesCanvas){
+    cervezaSalesCanvas.getContext('2d');
+    var datasets = new Array();
+
+    Object.keys(cervezaDataset).forEach(key => {
+        datasets.push({
+            backgroundColor: getRandomColor(),
+            label: key,
+            data: cervezaDataset[key]
+        })
+    });
+
+    // Render the chart
+    const cervezaSalesChart = new Chart(cervezaSalesCanvas, {
+        type: 'bar',
+        data: {
+            labels: Array.from(cervezaLabels),
+            datasets: datasets,
+        },
+        options: {
+            scales: {
+                y: {
+                    ticks: {
+                    stepSize: 1
+                    },
+                    beginAtZero: true,
+                }
             }
         }
-    },
-});
+    });
 
-const cervezaSalesCanvas = document.getElementById('cervezaSales').getContext('2d');
-var datasets = new Array();
+}
 
-Object.keys(cervezaDataset).forEach(key => {
-    datasets.push({
-        backgroundColor: getRandomColor(),
-        label: key,
-        data: cervezaDataset[key]
-    })
-});
+const bocaSalesCanvas = document.getElementById('bocaSales')
+if (bocaSalesCanvas){
+    bocaSalesCanvas.getContext('2d');
+    var datasets = new Array();
 
-// Render the chart
-const cervezaSalesChart = new Chart(cervezaSalesCanvas, {
-    type: 'bar',
-    data: {
-        labels: Array.from(cervezaLabels),
-        datasets: datasets,
-    },
-    options: {
-        scales: {
-            y: {
-                ticks: {
-                stepSize: 1
-                },
-                beginAtZero: true,
+    Object.keys(bocasDataset).forEach(key => {
+        datasets.push({
+            backgroundColor: getRandomColor(),
+            label: key,
+            data: bocasDataset[key]
+        })
+    });
+
+    // Render the chart
+    const bocaSalesChart = new Chart(bocaSalesCanvas, {
+        type: 'bar',
+        data: {
+            labels: Array.from(bocasLabels),
+            datasets: datasets,
+        },
+        options: {
+            scales: {
+                y: {
+                    ticks: {
+                    stepSize: 1
+                    },
+                    beginAtZero: true,
+                }
             }
         }
-    }
-});
-
-const bocaSalesCanvas = document.getElementById('bocaSales').getContext('2d');
-var datasets = new Array();
-
-Object.keys(bocasDataset).forEach(key => {
-    datasets.push({
-        backgroundColor: getRandomColor(),
-        label: key,
-        data: bocasDataset[key]
-    })
-});
-
-// Render the chart
-const bocaSalesChart = new Chart(bocaSalesCanvas, {
-    type: 'bar',
-    data: {
-        labels: Array.from(bocasLabels),
-        datasets: datasets,
-    },
-    options: {
-        scales: {
-            y: {
-                ticks: {
-                stepSize: 1
-                },
-                beginAtZero: true,
-            }
-        }
-    }
-});
+    });
+}
