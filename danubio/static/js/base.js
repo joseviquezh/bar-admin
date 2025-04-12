@@ -5,11 +5,11 @@ new DataTable('#openOrdersTable', {
     searching: true,
     "columns": [
         null,
-        null,
-        { "width": "15%" },
+        { "width": "20%" },
+        { "width": "20%" },
     ],
     fixedColumns: true,
-    scrollY: 300,
+    scrollY: 500,
     info: false,
     language: {
         url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
@@ -23,11 +23,11 @@ new DataTable('#closedOrdersTable', {
     searching: true,
     "columns": [
         null,
-        null,
-        { "width": "15%" },
+        { "width": "20%" },
+        { "width": "20%" },
     ],
     fixedColumns: true,
-    scrollY: 300,
+    scrollY: 500,
     info: false,
     language: {
         url: '//cdn.datatables.net/plug-ins/2.2.2/i18n/es-ES.json',
@@ -41,7 +41,7 @@ new DataTable('#inventoryTable', {
     ordering: true,
     searching: true,
     fixedColumns: true,
-    scrollY: 300,
+    scrollY: 1000,
     rowGroup: {
         dataSrc: [0],
     },
@@ -64,7 +64,7 @@ new DataTable('#createOrderTable', {
     ordering: true,
     searching: true,
     fixedColumns: true,
-    scrollY: 300,
+    scrollY: 400,
     rowGroup: {
         dataSrc: [0],
     },
@@ -87,7 +87,7 @@ new DataTable('#updateInventoryTable', {
     ordering: true,
     searching: true,
     fixedColumns: true,
-    scrollY: 300,
+    scrollY: 400,
     rowGroup: {
         dataSrc: [0],
     },

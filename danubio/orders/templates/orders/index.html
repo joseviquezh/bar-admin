@@ -107,56 +107,56 @@
     </form>
 </div>
 
-<div class="container">
-    <h2>Abiertas</h2>
-    <div class="container">
-        <table id="openOrdersTable" class="table table-hover table-striped table-bordered center">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Total</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in open_orders %}
-                <tr>
-                    <td>{{ order.customer }}</td>
-                    <td>₡{{ order.total_ammount }}</td>
-                    <td>
-                        <div>
-                            <button id="addProductButton" type="button" class="btn btn-primary" data-order-id="{{ order.id }}">Agregar</button>
-                            <button id="payButton" type="button" class="btn btn-primary" data-order-id="{{ order.id }}" data-detail-url="{% url 'order_details' order.id %}">Pagar</button>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            <tbody>
-        </table>
-    </div>
-    <hr>
-    <h2>Cerradas</h2>
-    <div class="container">
-        <table id="closedOrdersTable" class="table table-hover table-striped table-bordered center">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Total</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in closed_orders %}
-                <tr>
-                    <td>{{ order.customer }}</td>
-                    <td>₡{{ order.total_ammount }}</td>
-                    <td></td>
-                </tr>
-                {% endfor %}
-            <tbody>
-        </table>
-    </div>    
+<h2>Abiertas</h2>
+<div class="custom-container">
+    <table id="openOrdersTable" class="table table-hover table-striped table-bordered center">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in open_orders %}
+            <tr>
+                <td>{{ order.customer }}</td>
+                <td>₡{{ order.total_ammount }}</td>
+                <td>
+                    <div>
+                        <button id="addProductButton" type="button" class="btn btn-primary" data-order-id="{{ order.id }}">Agregar</button>
+                        <button id="payButton" type="button" class="btn btn-primary" data-order-id="{{ order.id }}" data-detail-url="{% url 'order_details' order.id %}">Pagar</button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table>
 </div>
+<div class="custom-container">
+    <hr>
+</div>
+<h2>Cerradas</h2>
+<div class="custom-container">
+    <table id="closedOrdersTable" class="table table-hover table-striped table-bordered center">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in closed_orders %}
+            <tr>
+                <td>{{ order.customer }}</td>
+                <td>₡{{ order.total_ammount }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table>
+</div>    
 <br>
 
 {% endblock %}
