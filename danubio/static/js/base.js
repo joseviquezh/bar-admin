@@ -1,3 +1,14 @@
+// const selects = document.querySelectorAll("select")
+// selects.forEach(select => {
+//     var quantity = select.getAttribute("data-quantity");
+//     for (let i = 1; i <= quantity; i++) {
+//         const option = document.createElement('option'); // Crea un nuevo elemento <option>
+//         option.value = i; // Establece el valor de la opción
+//         option.textContent = i; // Establece el texto visible de la opción
+//         select.appendChild(option); // Agrega la opción al <select>
+//     }
+// });
+
 function validateForm(event, table){
 
     const rows = table.querySelectorAll('tr');
@@ -80,7 +91,7 @@ new DataTable('#inventoryTable', {
     ordering: true,
     searching: true,
     fixedColumns: true,
-    scrollY: 1000,
+    scrollY: 500,
     rowGroup: {
         dataSrc: [0],
     },
